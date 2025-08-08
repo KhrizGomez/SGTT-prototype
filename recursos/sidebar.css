@@ -1,0 +1,353 @@
+/* Sidebar homogéneo estilo UTEQ - MÁXIMA ESPECIFICIDAD PARA EVITAR SOBRESCRITURA */
+html body .sidebar.sidebar, 
+html .dashboard-container .sidebar.sidebar,
+html body .sidebar#sidebar-root {
+  width: 240px !important;
+  background: #f8f9fa !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  border-right: 1px solid #e9ecef !important;
+}
+html body .sidebar.sidebar .sidebar-header,
+html .dashboard-container .sidebar.sidebar .sidebar-header,
+html body .sidebar#sidebar-root .sidebar-header {
+  padding: 1rem 0.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-bottom: 1px solid #e9ecef !important;
+  background: #fff !important;
+}
+html body .sidebar.sidebar .logo,
+html .dashboard-container .sidebar.sidebar .logo,
+html body .sidebar#sidebar-root .logo {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+html body .sidebar.sidebar .logo-img,
+html .dashboard-container .sidebar.sidebar .logo-img,
+html body .sidebar#sidebar-root .logo-img {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 200px !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+  transform: none !important;
+}
+html body .sidebar.sidebar .logo-img:hover,
+html .dashboard-container .sidebar.sidebar .logo-img:hover,
+html body .sidebar#sidebar-root .logo-img:hover {
+  transform: none !important;
+}
+html body .sidebar.sidebar .logo-text,
+html .dashboard-container .sidebar.sidebar .logo-text,
+html body .sidebar#sidebar-root .logo-text {
+  display: none !important;
+}
+html body .sidebar.sidebar .sidebar-nav,
+html .dashboard-container .sidebar.sidebar .sidebar-nav,
+html body .sidebar#sidebar-root .sidebar-nav {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  margin-top: 0 !important;
+  padding: 0.5rem 0 !important;
+}
+html body .sidebar.sidebar .nav-item,
+html .dashboard-container .sidebar.sidebar .nav-item,
+html body .sidebar#sidebar-root .nav-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.75rem 1rem !important;
+  color: #6c757d !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  border-radius: 0 !important;
+  transition: all 0.2s ease !important;
+  border-left: none !important;
+  border: none !important;
+  margin: 0 0.5rem !important;
+  border-radius: 6px !important;
+}
+html body .sidebar.sidebar .nav-item i,
+html .dashboard-container .sidebar.sidebar .nav-item i,
+html body .sidebar#sidebar-root .nav-item i {
+  font-size: 1rem !important;
+  width: 20px !important;
+  text-align: center !important;
+  margin-right: 0 !important;
+  color: #6c757d !important;
+}
+html body .sidebar.sidebar .nav-item.active,
+html .dashboard-container .sidebar.sidebar .nav-item.active,
+html body .sidebar#sidebar-root .nav-item.active {
+  background: #2e7d32 !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+}
+html body .sidebar.sidebar .nav-item.active i,
+html .dashboard-container .sidebar.sidebar .nav-item.active i,
+html body .sidebar#sidebar-root .nav-item.active i {
+  color: #fff !important;
+}
+html body .sidebar.sidebar .nav-item:hover,
+html .dashboard-container .sidebar.sidebar .nav-item:hover,
+html body .sidebar#sidebar-root .nav-item:hover {
+  background: #dee2e6 !important;
+  color: #212529 !important;
+}
+html body .sidebar.sidebar .nav-item:hover i,
+html .dashboard-container .sidebar.sidebar .nav-item:hover i,
+html body .sidebar#sidebar-root .nav-item:hover i {
+  color: #212529 !important;
+}
+/* Eliminar reglas que ocultan secciones - ahora las queremos mostrar */
+html body .sidebar.sidebar .sidebar-footer,
+html .dashboard-container .sidebar.sidebar .sidebar-footer,
+html body .sidebar#sidebar-root .sidebar-footer { display: none !important; }
+html body .sidebar.sidebar .user-info,
+html .dashboard-container .sidebar.sidebar .user-info,
+html body .sidebar#sidebar-root .user-info { display: none !important; }
+html body .sidebar.sidebar .nav-list,
+html .dashboard-container .sidebar.sidebar .nav-list,
+html body .sidebar#sidebar-root .nav-list { display: none !important; }
+
+/* Estilos para secciones de navegación */
+html body .sidebar.sidebar .nav-section,
+html .dashboard-container .sidebar.sidebar .nav-section,
+html body .sidebar#sidebar-root .nav-section {
+  margin-bottom: 1rem !important;
+}
+
+html body .sidebar.sidebar .nav-section-title,
+html .dashboard-container .sidebar.sidebar .nav-section-title,
+html body .sidebar#sidebar-root .nav-section-title {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  color: #6c757d !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 0.25rem !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Sidebar Footer */
+html body .sidebar.sidebar .sidebar-footer,
+html .dashboard-container .sidebar.sidebar .sidebar-footer,
+html body .sidebar#sidebar-root .sidebar-footer {
+  margin-top: auto !important;
+  padding: 1.5rem !important;
+  border-top: 1px solid #e9ecef !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #fff !important;
+}
+
+html body .sidebar.sidebar .user-info,
+html .dashboard-container .sidebar.sidebar .user-info,
+html body .sidebar#sidebar-root .user-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+
+html body .sidebar.sidebar .user-avatar,
+html .dashboard-container .sidebar.sidebar .user-avatar,
+html body .sidebar#sidebar-root .user-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  background: #2e7d32 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #ffffff !important;
+}
+
+html body .sidebar.sidebar .user-details,
+html .dashboard-container .sidebar.sidebar .user-details,
+html body .sidebar#sidebar-root .user-details {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+html body .sidebar.sidebar .user-name,
+html .dashboard-container .sidebar.sidebar .user-name,
+html body .sidebar#sidebar-root .user-name {
+  font-weight: 600 !important;
+  color: #424242 !important;
+  font-size: 0.875rem !important;
+}
+
+html body .sidebar.sidebar .user-role,
+html .dashboard-container .sidebar.sidebar .user-role,
+html body .sidebar#sidebar-root .user-role {
+  font-size: 0.75rem !important;
+  color: #424242 !important;
+  opacity: 0.7 !important;
+}
+
+html body .sidebar.sidebar .logout-btn,
+html .dashboard-container .sidebar.sidebar .logout-btn,
+html body .sidebar#sidebar-root .logout-btn {
+  background: none !important;
+  border: none !important;
+  padding: 0.5rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  color: #424242 !important;
+  transition: all 0.2s ease !important;
+}
+
+html body .sidebar.sidebar .logout-btn:hover,
+html .dashboard-container .sidebar.sidebar .logout-btn:hover,
+html body .sidebar#sidebar-root .logout-btn:hover {
+  background-color: #f5f5f5 !important;
+  color: #2e7d32 !important;
+}
+
+/* Ajuste para el contenido principal */
+.main-content {
+  margin-left: 240px !important;
+  transition: margin-left 0.3s ease !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  html body .sidebar.sidebar,
+  html .dashboard-container .sidebar.sidebar,
+  html body .sidebar#sidebar-root {
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease !important;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* ESTILOS ESTÁNDAR PARA LAYOUT PRINCIPAL */
+
+/* Main Content */
+html body .main-content {
+  flex: 1 !important;
+  margin-left: 240px !important;
+  padding: 0 !important;
+  background-color: #f5f5f5 !important;
+}
+
+/* Top Bar */
+html body .top-bar {
+  background: #ffffff !important;
+  padding: 1rem 2rem !important;
+  border-bottom: 1px solid #eeeeee !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+html body .search-container {
+  position: relative !important;
+  flex: 1 !important;
+  max-width: 400px !important;
+}
+
+html body .search-icon {
+  position: absolute !important;
+  left: 1rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #424242 !important;
+}
+
+html body .search-input {
+  width: 100% !important;
+  padding: 0.75rem 1rem 0.75rem 3rem !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  background: #fafafa !important;
+}
+
+html body .top-bar-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+}
+
+html body .notification-btn {
+  position: relative !important;
+  background: none !important;
+  border: none !important;
+  padding: 0.5rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  color: #424242 !important;
+}
+
+html body .notification-btn:hover {
+  background-color: #f5f5f5 !important;
+}
+
+html body .notification-badge {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  background: #ef4444 !important;
+  color: white !important;
+  border-radius: 50% !important;
+  width: 18px !important;
+  height: 18px !important;
+  font-size: 0.75rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+html body .settings-btn {
+  position: relative !important;
+  background: none !important;
+  border: none !important;
+  padding: 0.5rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  color: #424242 !important;
+}
+
+html body .settings-btn:hover {
+  background-color: #f5f5f5 !important;
+}
+
+/* Dashboard Content */
+html body .dashboard-content {
+  padding: 2rem !important;
+}
+
+html body .page-header {
+  margin-bottom: 2rem !important;
+}
+
+html body .page-title {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: #424242 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+html body .page-subtitle {
+  color: #424242 !important;
+  font-size: 1.1rem !important;
+  opacity: 0.8 !important;
+}

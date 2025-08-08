@@ -1,0 +1,46 @@
+/* Placeholder CSS para la imagen de fondo del campus UTEQ */
+/* Este archivo puede ser usado para crear un fondo con CSS puro mientras no tengamos la imagen real */
+
+.campus-background-placeholder {
+    background: linear-gradient(
+        135deg,
+        #2e7d32 0%,
+        #388e3c 15%,
+        #4caf50 30%,
+        #66bb6a 45%,
+        #81c784 60%,
+        #8bc34a 75%,
+        #9ccc65 90%,
+        #aed581 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+.campus-background-placeholder::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+}
+
+.campus-background-placeholder::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(
+        to top,
+        rgba(46, 125, 50, 0.8) 0%,
+        rgba(46, 125, 50, 0.4) 50%,
+        transparent 100%
+    );
+}

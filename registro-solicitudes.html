@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Solicitudes - Sistema de Gestión de Trámites Estudiantiles</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="recursos/sidebar.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset y variables CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --dark-green: #1b5e20;
+            --accent-orange: #ff8c42;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #eeeeee;
+            --gray-300: #e0e0e0;
+            --gray-800: #424242;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background-color: var(--gray-100);
+            color: var(--gray-800);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Estilos específicos para el módulo de solicitudes */
+        .solicitud-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .type-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .type-card:hover {
+            background: var(--white);
+            border-color: var(--primary-green);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .type-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-green);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .type-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .type-content p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .required-docs {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .doc-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
+        }
+
+        .doc-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .doc-item i {
+            color: var(--primary-green);
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--gray-300);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--primary-green);
+            background: var(--gray-50);
+        }
+
+        .file-upload-text i {
+            font-size: 2rem;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-text p {
+            font-size: 1rem;
+            color: var(--gray-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-text small {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-800);
+            border: 1px solid var(--gray-200);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        .btn-primary {
+            background: var(--primary-green);
+            color: white;
+            border: 1px solid var(--primary-green);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-green);
+            border-color: var(--dark-green);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            padding: 0;
+            background-color: var(--gray-100);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-800);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: var(--gray-50);
+        }
+
+        .top-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--gray-800);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--gray-800);
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar-root"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Buscar..." class="search-input">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="settings-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1 class="page-title">Registro de Solicitudes</h1>
+                    <p class="page-subtitle">Crear nueva solicitud de trámite estudiantil</p>
+                </div>
+
+                <!-- Tipo de Solicitud -->
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3 class="widget-title">Selecciona el tipo de solicitud</h3>
+                    </div>
+                    <div class="solicitud-types">
+                        <div class="type-card" onclick="showForm('certificado')">
+                            <div class="type-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="type-content">
+                                <h4>Certificado Académico</h4>
+                                <p>Certificados de notas, estudios y constancias</p>
+                            </div>
+                        </div>
+                        <div class="type-card" onclick="showForm('homologacion')">
+                            <div class="type-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="type-content">
+                                <h4>Homologación</h4>
+                                <p>Homologación de materias y equivalencias</p>
+                            </div>
+                        </div>
+                        <div class="type-card" onclick="showForm('reingreso')">
+                            <div class="type-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="type-content">
+                                <h4>Solicitud de Reingreso</h4>
+                                <p>Reingreso a programas académicos</p>
+                            </div>
+                        </div>
+                        <div class="type-card" onclick="showForm('cambio')">
+                            <div class="type-icon">
+                                <i class="fas fa-random"></i>
+                            </div>
+                            <div class="type-content">
+                                <h4>Cambio de Programa</h4>
+                                <p>Cambio o transferencia de programa</p>
+                            </div>
+                        </div>
+                        <div class="type-card" onclick="showForm('grado')">
+                            <div class="type-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="type-content">
+                                <h4>Solicitud de Grado</h4>
+                                <p>Trámites relacionados con graduación</p>
+                            </div>
+                        </div>
+                        <div class="type-card" onclick="showForm('otros')">
+                            <div class="type-icon">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </div>
+                            <div class="type-content">
+                                <h4>Otros Trámites</h4>
+                                <p>Solicitudes especiales y otros trámites</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario Dinámico -->
+                <div id="formulario-container" class="widget" style="display: none;">
+                    <div class="widget-header">
+                        <h3 id="form-title" class="widget-title">Formulario de Solicitud</h3>
+                    </div>
+                    <form id="dynamic-form">
+                        <div id="form-fields">
+                            <!-- Los campos se generan dinámicamente según el tipo -->
+                        </div>
+                        
+                        <!-- Sección de archivos -->
+                        <div class="form-group">
+                            <label for="documentos">Documentos requeridos:</label>
+                            <div id="required-docs" class="required-docs">
+                                <!-- Lista de documentos requeridos se genera dinámicamente -->
+                            </div>
+                            <div class="file-upload-area" onclick="document.getElementById('file-upload').click()">
+                                <input type="file" id="file-upload" class="form-control" multiple accept=".pdf,.jpg,.jpeg,.png" onchange="uploadFile(this)" style="display: none;">
+                                <div class="file-upload-text">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Arrastra archivos aquí o haz clic para seleccionar</p>
+                                    <small>Formatos permitidos: PDF, JPG, PNG. Tamaño máximo: 5MB por archivo</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="hideForm()">Cancelar</button>
+                            <button type="button" class="btn-primary" onclick="submitForm()">Enviar Solicitud</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Funciones de autenticación y navegación
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                localStorage.removeItem('userSession');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Verificar sesión al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            const session = localStorage.getItem('userSession');
+            if (!session) {
+                // Verificar también el método anterior por compatibilidad
+                const isLoggedIn = localStorage.getItem('isLoggedIn');
+                if (!isLoggedIn) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                // Si existe el método anterior, crear sesión nueva
+                const username = localStorage.getItem('userName') || 'Usuario';
+                const role = localStorage.getItem('userRole') || 'estudiante';
+                const userSession = {
+                    username: username,
+                    role: role,
+                    loginTime: new Date().toISOString(),
+                    isLoggedIn: true
+                };
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+            }
+
+            const userData = session ? JSON.parse(session) : {
+                username: localStorage.getItem('userName') || 'Usuario',
+                role: localStorage.getItem('userRole') || 'estudiante'
+            };
+            
+            // Actualizar elementos de manera segura
+            const userNameElement = document.getElementById('userName');
+            const userRoleElement = document.getElementById('userRole');
+            
+            if (userNameElement) userNameElement.textContent = userData.username;
+            if (userRoleElement) userRoleElement.textContent = userData.role;
+        });
+
+        // Configuración de formularios por tipo
+        const formConfigs = {
+            certificado: {
+                title: "Certificado Académico",
+                fields: [
+                    { name: "tipo_certificado", label: "Tipo de Certificado", type: "select", 
+                      options: ["Certificado de Notas", "Certificado de Estudios", "Constancia de Matrícula"], required: true },
+                    { name: "semestres", label: "Semestres a incluir", type: "text", required: true },
+                    { name: "observaciones", label: "Observaciones", type: "textarea", required: false }
+                ],
+                docs: ["Cédula de identidad", "Comprobante de pago"]
+            },
+            homologacion: {
+                title: "Homologación de Materias",
+                fields: [
+                    { name: "universidad_origen", label: "Universidad de Origen", type: "text", required: true },
+                    { name: "programa_origen", label: "Programa de Origen", type: "text", required: true },
+                    { name: "materias", label: "Materias a homologar", type: "textarea", required: true },
+                    { name: "creditos", label: "Créditos totales", type: "number", required: true }
+                ],
+                docs: ["Certificado de notas original", "Pensum académico", "Cédula de identidad"]
+            },
+            reingreso: {
+                title: "Solicitud de Reingreso",
+                fields: [
+                    { name: "programa", label: "Programa al que desea reingresar", type: "text", required: true },
+                    { name: "ultimo_semestre", label: "Último semestre cursado", type: "text", required: true },
+                    { name: "motivo_retiro", label: "Motivo del retiro", type: "textarea", required: true },
+                    { name: "fecha_retiro", label: "Fecha de retiro", type: "date", required: true }
+                ],
+                docs: ["Certificado de notas", "Carta de motivos", "Cédula de identidad"]
+            },
+            cambio: {
+                title: "Cambio de Programa",
+                fields: [
+                    { name: "programa_actual", label: "Programa Actual", type: "text", required: true },
+                    { name: "programa_destino", label: "Programa de Destino", type: "text", required: true },
+                    { name: "semestre_actual", label: "Semestre Actual", type: "text", required: true },
+                    { name: "motivo", label: "Motivo del cambio", type: "textarea", required: true }
+                ],
+                docs: ["Certificado de notas", "Carta de motivos", "Cédula de identidad"]
+            },
+            grado: {
+                title: "Solicitud de Grado",
+                fields: [
+                    { name: "programa", label: "Programa", type: "text", required: true },
+                    { name: "modalidad", label: "Modalidad de Grado", type: "select", 
+                      options: ["Trabajo de Grado", "Examen de Grado", "Curso de Profundización"], required: true },
+                    { name: "director", label: "Director de Trabajo (si aplica)", type: "text", required: false },
+                    { name: "titulo_trabajo", label: "Título del Trabajo (si aplica)", type: "text", required: false }
+                ],
+                docs: ["Certificado de notas", "Comprobante de pago", "Proyecto de grado (si aplica)"]
+            },
+            otros: {
+                title: "Otros Trámites",
+                fields: [
+                    { name: "tipo_tramite", label: "Tipo de Trámite", type: "text", required: true },
+                    { name: "descripcion", label: "Descripción detallada", type: "textarea", required: true },
+                    { name: "justificacion", label: "Justificación", type: "textarea", required: true }
+                ],
+                docs: ["Documentos de soporte", "Cédula de identidad"]
+            }
+        };
+
+        function showForm(type) {
+            const config = formConfigs[type];
+            if (!config) return;
+
+            const container = document.getElementById('formulario-container');
+            const title = document.getElementById('form-title');
+            const fieldsContainer = document.getElementById('form-fields');
+            const docsContainer = document.getElementById('required-docs');
+
+            title.textContent = config.title;
+
+            // Generar campos del formulario
+            fieldsContainer.innerHTML = '';
+            config.fields.forEach(field => {
+                const fieldDiv = document.createElement('div');
+                fieldDiv.className = 'form-group';
+
+                let fieldHTML = `<label for="${field.name}">${field.label}${field.required ? ' *' : ''}</label>`;
+
+                switch (field.type) {
+                    case 'select':
+                        fieldHTML += `<select id="${field.name}" name="${field.name}" class="form-control" ${field.required ? 'required' : ''}>
+                            <option value="">Seleccione una opción</option>
+                            ${field.options.map(option => `<option value="${option}">${option}</option>`).join('')}
+                        </select>`;
+                        break;
+                    case 'textarea':
+                        fieldHTML += `<textarea id="${field.name}" name="${field.name}" class="form-control" rows="4" ${field.required ? 'required' : ''}></textarea>`;
+                        break;
+                    case 'date':
+                        fieldHTML += `<input type="date" id="${field.name}" name="${field.name}" class="form-control" ${field.required ? 'required' : ''}>`;
+                        break;
+                    case 'number':
+                        fieldHTML += `<input type="number" id="${field.name}" name="${field.name}" class="form-control" ${field.required ? 'required' : ''}>`;
+                        break;
+                    default:
+                        fieldHTML += `<input type="text" id="${field.name}" name="${field.name}" class="form-control" ${field.required ? 'required' : ''}>`;
+                }
+
+                fieldDiv.innerHTML = fieldHTML;
+                fieldsContainer.appendChild(fieldDiv);
+            });
+
+            // Generar lista de documentos requeridos
+            docsContainer.innerHTML = '';
+            config.docs.forEach(doc => {
+                const docDiv = document.createElement('div');
+                docDiv.className = 'doc-item';
+                docDiv.innerHTML = `<i class="fas fa-file-alt"></i> ${doc}`;
+                docsContainer.appendChild(docDiv);
+            });
+
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideForm() {
+            document.getElementById('formulario-container').style.display = 'none';
+        }
+
+        function uploadFile(input) {
+            const files = input.files;
+            // Aquí se implementaría la lógica de subida de archivos
+            console.log('Archivos seleccionados:', files);
+        }
+
+        function submitForm() {
+            const form = document.getElementById('dynamic-form');
+            const title = document.getElementById('form-title').textContent;
+            
+            // Validar campos requeridos
+            const requiredFields = form.querySelectorAll('[required]');
+            let valid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#f44336';
+                    valid = false;
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+            
+            if (!valid) {
+                alert('Por favor completa todos los campos requeridos');
+                return;
+            }
+            
+            // Simular envío
+            alert(`Solicitud de ${title} enviada exitosamente. Se te notificará cuando sea procesada.`);
+            hideForm();
+            form.reset();
+        }
+    </script>
+    
+    <script src="recursos/sidebar.js"></script>
+    <script>
+      window.addEventListener('DOMContentLoaded', function(){
+        window.initSidebar && window.initSidebar({ active: 'registro' });
+      });
+    </script>
+</body>
+</html>

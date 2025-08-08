@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - UTEQ Sistema de Gestión de Trámites</title>
+    <link rel="stylesheet" href="login-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Background campus image -->
+    <div class="campus-background"></div>
+    
+    <!-- Login form container centrado -->
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Logo UTEQ exacto como en la imagen -->
+            <div class="uteq-logo">
+                <div class="logo-image">
+                    <img src="recursos/logo.png" alt="UTEQ Logo" class="logo-img">
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="login-form" onsubmit="handleLogin(event)">
+                <!-- Usuario Field -->
+                <div class="input-group">
+                    <input type="text" 
+                           id="usuario" 
+                           name="usuario" 
+                           class="form-input"
+                           placeholder="Usuario"
+                           required>
+                </div>
+
+                <!-- Contraseña Field -->
+                <div class="input-group">
+                    <input type="password" 
+                           id="password" 
+                           name="password" 
+                           class="form-input"
+                           placeholder="Contraseña"
+                           required>
+                </div>
+
+                <!-- Iniciar Sesión Button -->
+                <button type="submit" class="btn-iniciar-sesion">
+                    Iniciar Sesión
+                </button>
+
+                <!-- Crear Cuenta Button -->
+                <button type="button" class="btn-crear-cuenta" onclick="showCreateAccount()">
+                    Crear Cuenta
+                </button>
+
+                <!-- Forgot Password Link -->
+                <div class="forgot-password-link">
+                    <a href="#" onclick="showForgotPassword()">¿Olvidaste tu contraseña?</a>
+                </div>
+            </form>
+
+            <!-- Demo Access (mantener para facilitar la demostración) -->
+            <div class="demo-section">
+                <div class="demo-divider"></div>
+                <p class="demo-title">Acceso de Demostración:</p>
+                <div class="demo-buttons">
+                    <button class="btn-demo-student" onclick="loginAsStudent()">
+                        <i class="fas fa-user-graduate"></i>
+                        Estudiante
+                    </button>
+                    <button class="btn-demo-admin" onclick="loginAsAdmin()">
+                        <i class="fas fa-user-shield"></i>
+                        Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Create Account -->
+    <div id="createAccountModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Crear Nueva Cuenta</h3>
+                <button class="close-modal" onclick="closeModal('createAccountModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createAccountForm">
+                    <div class="form-group">
+                        <label for="newUsuario">Usuario</label>
+                        <input type="text" id="newUsuario" name="newUsuario" placeholder="Nombre de usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" placeholder="correo@uteq.edu.ec" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cedula">Número de Cédula</label>
+                        <input type="text" id="cedula" name="cedula" placeholder="0123456789" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Contraseña</label>
+                        <input type="password" id="newPassword" name="newPassword" placeholder="Contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Contraseña</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmar contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userType">Tipo de Usuario</label>
+                        <select id="userType" name="userType" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="estudiante">Estudiante</option>
+                            <option value="docente">Docente</option>
+                            <option value="administrativo">Personal Administrativo</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('createAccountModal')">Cancelar</button>
+                <button class="btn-primary" onclick="createAccount()">Crear Cuenta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Forgot Password -->
+    <div id="forgotPasswordModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Recuperar Contraseña</h3>
+                <button class="close-modal" onclick="closeModal('forgotPasswordModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Ingresa tu correo electrónico para recibir instrucciones de recuperación:</p>
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label for="recoveryEmail">Correo Electrónico</label>
+                        <input type="email" id="recoveryEmail" name="recoveryEmail" placeholder="correo@uteq.edu.ec" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('forgotPasswordModal')">Cancelar</button>
+                <button class="btn-primary" onclick="sendRecoveryEmail()">Enviar Instrucciones</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="login-script.js"></script>
+</body>
+</html>

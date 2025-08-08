@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento - Sistema de Gestión de Trámites Estudiantiles</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="recursos/sidebar.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset y variables CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --dark-green: #1b5e20;
+            --accent-orange: #ff8c42;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #eeeeee;
+            --gray-300: #e0e0e0;
+            --gray-800: #424242;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background-color: var(--gray-100);
+            color: var(--gray-800);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Estilos específicos para seguimiento */
+        .search-form {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-group {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .search-field {
+            flex: 1;
+        }
+
+        .search-field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .search-field input, .search-field select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .search-field input:focus, .search-field select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .search-btn {
+            background: var(--primary-green);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .search-btn:hover {
+            background: var(--dark-green);
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .request-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .request-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .request-id {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .request-date {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-processing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-approved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .request-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            color: var(--gray-800);
+            font-weight: 500;
+        }
+
+        .progress-container {
+            margin-top: 1rem;
+        }
+
+        .progress-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-track {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--white);
+        }
+
+        .step-completed {
+            background: var(--primary-green);
+        }
+
+        .step-active {
+            background: var(--accent-orange);
+        }
+
+        .step-pending {
+            background: var(--gray-300);
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: var(--gray-200);
+            margin: 0 0.5rem;
+        }
+
+        .step-line.completed {
+            background: var(--primary-green);
+        }
+
+        .step-text {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn-outline {
+            background: var(--primary-green);
+            color: white;
+            border: 1px solid var(--primary-green);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-outline:hover {
+            background: var(--dark-green);
+            border-color: var(--dark-green);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-600);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            padding: 0;
+            background-color: var(--gray-100);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-800);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: var(--gray-50);
+        }
+
+        .top-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--gray-800);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--gray-800);
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (componente reutilizable) -->
+        <div class="sidebar" id="sidebar-root"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Buscar..." class="search-input">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="settings-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1 class="page-title">Seguimiento de Trámites</h1>
+                    <p class="page-subtitle">Consulta el estado y progreso de tus solicitudes</p>
+                </div>
+
+                <!-- Formulario de Búsqueda -->
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3 class="widget-title">Buscar Solicitud</h3>
+                    </div>
+                    <div class="search-form">
+                        <div class="search-group">
+                            <div class="search-field">
+                                <label for="searchType">Buscar por:</label>
+                                <select id="searchType" onchange="toggleSearchFields()">
+                                    <option value="solicitud">Número de Solicitud</option>
+                                    <option value="cedula">Cédula de Identidad</option>
+                                </select>
+                            </div>
+                            <div class="search-field">
+                                <label for="searchValue">Valor:</label>
+                                <input type="text" id="searchValue" placeholder="Ingresa el número o cédula">
+                            </div>
+                            <button class="search-btn" onclick="searchRequest()">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resultados -->
+                <div id="resultsContainer" class="results-container">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3 class="widget-title">Resultados de la Búsqueda</h3>
+                        </div>
+                        <div id="resultsContent">
+                            <!-- Los resultados se cargan dinámicamente aquí -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Funciones de autenticación y navegación
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                localStorage.removeItem('userSession');
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userRole');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Verificar sesión al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            const session = localStorage.getItem('userSession');
+            if (!session) {
+                // Verificar también el método anterior por compatibilidad
+                const isLoggedIn = localStorage.getItem('isLoggedIn');
+                if (!isLoggedIn) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                // Si existe el método anterior, crear sesión nueva
+                const username = localStorage.getItem('userName') || 'Usuario';
+                const role = localStorage.getItem('userRole') || 'estudiante';
+                const userSession = {
+                    username: username,
+                    role: role,
+                    loginTime: new Date().toISOString(),
+                    isLoggedIn: true
+                };
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+            }
+
+            const userData = session ? JSON.parse(session) : {
+                username: localStorage.getItem('userName') || 'Usuario',
+                role: localStorage.getItem('userRole') || 'estudiante'
+            };
+            
+            // Actualizar elementos de manera segura
+            const userNameElement = document.getElementById('userName');
+            const userRoleElement = document.getElementById('userRole');
+            
+            if (userNameElement) userNameElement.textContent = userData.username;
+            if (userRoleElement) userRoleElement.textContent = userData.role;
+        });
+
+        // Datos de ejemplo
+        const sampleRequests = [
+            {
+                id: 'SOL-2025-001',
+                type: 'Certificado Académico',
+                status: 'processing',
+                statusText: 'En Procesamiento',
+                date: '2025-01-15',
+                estimatedDate: '2025-01-20',
+                cedula: '1234567890',
+                progress: {
+                    steps: [
+                        { name: 'Recibido', completed: true },
+                        { name: 'Revisión', completed: true },
+                        { name: 'Procesamiento', active: true },
+                        { name: 'Listo', completed: false }
+                    ]
+                }
+            },
+            {
+                id: 'SOL-2025-002',
+                type: 'Homologación',
+                status: 'pending',
+                statusText: 'Pendiente',
+                date: '2025-01-10',
+                estimatedDate: '2025-01-25',
+                cedula: '1234567890',
+                progress: {
+                    steps: [
+                        { name: 'Recibido', completed: true },
+                        { name: 'Revisión', active: true },
+                        { name: 'Procesamiento', completed: false },
+                        { name: 'Listo', completed: false }
+                    ]
+                }
+            },
+            {
+                id: 'SOL-2024-156',
+                type: 'Solicitud de Grado',
+                status: 'approved',
+                statusText: 'Aprobado',
+                date: '2024-12-01',
+                estimatedDate: '2024-12-15',
+                cedula: '1234567890',
+                progress: {
+                    steps: [
+                        { name: 'Recibido', completed: true },
+                        { name: 'Revisión', completed: true },
+                        { name: 'Procesamiento', completed: true },
+                        { name: 'Listo', completed: true }
+                    ]
+                }
+            }
+        ];
+
+        function toggleSearchFields() {
+            const searchType = document.getElementById('searchType').value;
+            const searchValue = document.getElementById('searchValue');
+            
+            if (searchType === 'solicitud') {
+                searchValue.placeholder = 'Ej: SOL-2025-001';
+            } else {
+                searchValue.placeholder = 'Ej: 1234567890';
+            }
+        }
+
+        function searchRequest() {
+            const searchType = document.getElementById('searchType').value;
+            const searchValue = document.getElementById('searchValue').value.trim();
+            
+            if (!searchValue) {
+                alert('Por favor ingresa un valor para buscar');
+                return;
+            }
+            
+            let results = [];
+            
+            if (searchType === 'solicitud') {
+                results = sampleRequests.filter(req => 
+                    req.id.toLowerCase().includes(searchValue.toLowerCase())
+                );
+            } else {
+                results = sampleRequests.filter(req => 
+                    req.cedula.includes(searchValue)
+                );
+            }
+            
+            displayResults(results);
+        }
+
+        function displayResults(results) {
+            const container = document.getElementById('resultsContainer');
+            const content = document.getElementById('resultsContent');
+            
+            container.style.display = 'block';
+            
+            if (results.length === 0) {
+                content.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>No se encontraron resultados</h3>
+                        <p>Verifica que el número de solicitud o cédula sea correcto</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = '';
+            
+            results.forEach(request => {
+                const requestCard = createRequestCard(request);
+                content.appendChild(requestCard);
+            });
+        }
+
+        function createRequestCard(request) {
+            const card = document.createElement('div');
+            card.className = 'request-card';
+            
+            const progressSteps = request.progress.steps.map((step, index) => {
+                let stepClass = 'step-pending';
+                if (step.completed) stepClass = 'step-completed';
+                if (step.active) stepClass = 'step-active';
+                
+                const lineClass = step.completed ? 'completed' : '';
+                const line = index < request.progress.steps.length - 1 ? 
+                    `<div class="step-line ${lineClass}"></div>` : '';
+                
+                return `
+                    <div class="progress-step">
+                        <div class="step-icon ${stepClass}">
+                            <i class="fas fa-${step.completed ? 'check' : (step.active ? 'clock' : 'circle')}"></i>
+                        </div>
+                        <div class="step-text">${step.name}</div>
+                    </div>
+                    ${line}
+                `;
+            }).join('');
+            
+            card.innerHTML = `
+                <div class="request-header">
+                    <div>
+                        <div class="request-id">${request.id}</div>
+                        <div class="request-date">Solicitado: ${formatDate(request.date)}</div>
+                    </div>
+                    <span class="status-badge status-${request.status}">${request.statusText}</span>
+                </div>
+                
+                <div class="request-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Tipo de Trámite</span>
+                        <span class="detail-value">${request.type}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Fecha Estimada</span>
+                        <span class="detail-value">${formatDate(request.estimatedDate)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estado</span>
+                        <span class="detail-value">${request.statusText}</span>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-title">Progreso del Trámite</div>
+                    <div class="progress-track">
+                        ${progressSteps}
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn-outline" onclick="downloadDocument('${request.id}')">
+                        <i class="fas fa-download"></i> Descargar
+                    </button>
+                    <button class="btn-outline" onclick="viewDetails('${request.id}')">
+                        <i class="fas fa-eye"></i> Ver Detalles
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-CO', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function downloadDocument(requestId) {
+            alert(`Descargando documento para solicitud ${requestId}`);
+            // Aquí iría la lógica real de descarga
+        }
+
+        function viewDetails(requestId) {
+            alert(`Ver detalles de solicitud ${requestId}`);
+            // Aquí iría la navegación a una página de detalles
+        }
+
+        // Buscar al presionar Enter
+        document.getElementById('searchValue').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchRequest();
+            }
+        });
+    </script>
+        <script src="recursos/sidebar.js"></script>
+        <script>
+            window.addEventListener('DOMContentLoaded', function(){
+                window.initSidebar && window.initSidebar({ active: 'seguimiento' });
+            });
+        </script>
+</body>
+</html>

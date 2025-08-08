@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Trámites Estudiantiles - UTEQ</title>
+    <link rel="stylesheet" href="styles.css?v=2">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Fallback styles para asegurar que el diseño funcione */
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; }
+        .dashboard-container { display: flex; height: 100vh; }
+        .sidebar { width: 280px; background: white; border-right: 1px solid #eee; }
+        .main-content { flex: 1; margin-left: 280px; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="recursos/logo.png" alt="UTEQ" class="logo-img">
+                    <span class="logo-text">UTEQ</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="registro-solicitudes.html" class="nav-link">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Solicitudes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="atencion-ia.html" class="nav-link">
+                            <i class="fas fa-robot"></i>
+                            <span>Asistente IA</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="seguimiento.html" class="nav-link">
+                            <i class="fas fa-search"></i>
+                            <span>Seguimiento</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="notificaciones.html" class="nav-link">
+                            <i class="fas fa-bell"></i>
+                            <span>Notificaciones</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="reportes.html" class="nav-link">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reportes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item admin-only">
+                        <a href="admin.html" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Administración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="userName">Usuario</span>
+                        <span class="user-role" id="userRole">Estudiante</span>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Buscar algo..." class="search-input">
+                </div>
+                
+                <div class="top-bar-actions">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="settings-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="user-profile">
+                        <img src="recursos/avatar-placeholder.png" alt="Usuario" class="profile-img">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card green">
+                        <div class="stat-header">
+                            <h3>Total Solicitudes</h3>
+                            <div class="stat-trend positive">
+                                <span>+8%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value">1,368</div>
+                        <div class="stat-label">Solicitudes procesadas</div>
+                    </div>
+                    
+                    <div class="stat-card red">
+                        <div class="stat-header">
+                            <h3>Total Estudiantes</h3>
+                            <div class="stat-trend negative">
+                                <span>-3%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value">593</div>
+                        <div class="stat-label">Estudiantes activos</div>
+                    </div>
+                    
+                    <div class="stat-card blue">
+                        <div class="stat-header">
+                            <h3>Trámites Completados</h3>
+                            <div class="stat-trend positive">
+                                <span>+12%</span>
+                            </div>
+                        </div>
+                        <div class="stat-value">960</div>
+                        <div class="stat-label">Este mes</div>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="main-grid">
+                    <!-- Quick Actions -->
+                    <div class="widget-card quick-actions">
+                        <div class="widget-header">
+                            <h3>Acciones Rápidas</h3>
+                            <button class="add-btn">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="quick-actions-grid">
+                            <div class="quick-action-item orange" onclick="navigateToPage('registro-solicitudes.html')">
+                                <div class="action-icon">
+                                    <i class="fas fa-file-plus"></i>
+                                </div>
+                                <span>Nueva Solicitud</span>
+                            </div>
+                            <div class="quick-action-item blue" onclick="navigateToPage('seguimiento.html')">
+                                <div class="action-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <span>Buscar Trámite</span>
+                            </div>
+                            <div class="quick-action-item green" onclick="navigateToPage('atencion-ia.html')">
+                                <div class="action-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <span>Ayuda IA</span>
+                            </div>
+                            <div class="quick-action-item purple" onclick="navigateToPage('reportes.html')">
+                                <div class="action-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                <span>Ver Reportes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="widget-card activity-feed">
+                        <div class="widget-header">
+                            <h3>Actividad Reciente</h3>
+                            <button class="more-btn">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-time">2h atrás</div>
+                                <div class="activity-content">
+                                    <h4>Solicitud de Certificado</h4>
+                                    <p>Tu solicitud ha sido aprobada</p>
+                                    <span class="activity-tag success">Aprobado</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-time">5h atrás</div>
+                                <div class="activity-content">
+                                    <h4>Actualización de Datos</h4>
+                                    <p>Información personal actualizada</p>
+                                    <span class="activity-tag info">Completado</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-time">1d atrás</div>
+                                <div class="activity-content">
+                                    <h4>Nueva Notificación</h4>
+                                    <p>Recordatorio de fecha límite</p>
+                                    <span class="activity-tag warning">Pendiente</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Chart -->
+                    <div class="widget-card chart-widget">
+                        <div class="widget-header">
+                            <h3>Progreso Mensual</h3>
+                            <div class="chart-filter">
+                                <select class="filter-select">
+                                    <option>Últimos 7 meses</option>
+                                    <option>Último año</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="progressChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Widget -->
+                    <div class="widget-card calendar-widget">
+                        <div class="widget-header">
+                            <h3>Calendario de Citas</h3>
+                            <div class="calendar-nav">
+                                <button class="nav-btn">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span class="month-year">Agosto 2025</span>
+                                <button class="nav-btn">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-header">
+                                <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+                            </div>
+                            <div class="calendar-body">
+                                <!-- Calendar days will be generated by JS -->
+                            </div>
+                        </div>
+                        <div class="upcoming-events">
+                            <div class="event-item">
+                                <div class="event-time">10-11 AM</div>
+                                <div class="event-title">Cita con Secretaría</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Verificar autenticación al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userName = localStorage.getItem('userName');
+            const userRole = localStorage.getItem('userRole');
+            
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Mostrar información del usuario
+            if (userName) {
+                document.getElementById('userName').textContent = userName;
+                document.getElementById('userRole').textContent = userRole || 'Estudiante';
+            }
+            
+            // Ocultar panel administrativo si no es admin
+            if (userRole !== 'admin') {
+                const adminItems = document.querySelectorAll('.admin-only');
+                adminItems.forEach(item => item.style.display = 'none');
+            }
+            
+            // Inicializar gráfico
+            initChart();
+            initCalendar();
+        });
+        
+        // Función para cerrar sesión
+        function logout() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userRole');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Inicializar gráfico
+        function initChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago'],
+                    datasets: [{
+                        data: [65, 120, 80, 190, 160, 150, 230, 200],
+                        backgroundColor: '#2e7d32',
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Inicializar calendario
+        function initCalendar() {
+            const calendarBody = document.querySelector('.calendar-body');
+            const today = new Date();
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            
+            let calendarHTML = '';
+            
+            // Días del mes anterior
+            for (let i = firstDay.getDay(); i > 0; i--) {
+                const day = new Date(firstDay.getTime() - i * 24 * 60 * 60 * 1000);
+                calendarHTML += `<span class="calendar-day prev-month">${day.getDate()}</span>`;
+            }
+            
+            // Días del mes actual
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const isToday = day === today.getDate() ? 'today' : '';
+                const hasEvent = [8, 15, 23].includes(day) ? 'has-event' : '';
+                calendarHTML += `<span class="calendar-day ${isToday} ${hasEvent}">${day}</span>`;
+            }
+            
+            calendarBody.innerHTML = calendarHTML;
+        }
+    </script>
+</body>
+</html>
