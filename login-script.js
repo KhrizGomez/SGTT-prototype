@@ -38,12 +38,24 @@ function handleLogin(event) {
     
     // Simular validación de credenciales
     setTimeout(() => {
-        // Credenciales de demostración
+        // Credenciales de demostración para los 4 tipos de usuario
         const validCredentials = [
-            { user: 'estudiante', pass: '123456', role: 'estudiante' },
-            { user: 'admin', pass: 'admin123', role: 'admin' },
-            { user: 'docente', pass: 'docente123', role: 'docente' },
-            { user: 'demo', pass: 'demo', role: 'estudiante' }
+            // Estudiantes
+            { user: 'estudiante', pass: '1111', role: 'estudiante', name: 'Juan Pérez' },
+            { user: 'maria.lopez', pass: 'estudiante123', role: 'estudiante', name: 'María López' },
+            { user: 'demo', pass: 'demo', role: 'estudiante', name: 'Usuario Demo' },
+            
+            // Coordinadores
+            { user: 'coordinador', pass: 'coord123', role: 'coordinador', name: 'Dr. Carlos Rodríguez' },
+            { user: 'coord.sistemas', pass: 'sistemas123', role: 'coordinador', name: 'Ing. Ana Martínez' },
+            
+            // Decanos
+            { user: 'decano', pass: 'decano123', role: 'decano', name: 'Dr. Roberto Gonzalez' },
+            { user: 'decano.ingenieria', pass: 'ing123', role: 'decano', name: 'Dr. Patricia Vargas' },
+            
+            // Administradores
+            { user: 'admin', pass: 'admin123', role: 'administrador', name: 'Administrador Sistema' },
+            { user: 'superadmin', pass: 'super123', role: 'administrador', name: 'Super Administrador' }
         ];
         
         const credential = validCredentials.find(cred => 
@@ -115,13 +127,13 @@ function loginAsAdmin() {
     // Login directo sin formulario
     const userSession = {
         username: 'admin',
-        role: 'admin',
+        role: 'administrador',
         loginTime: new Date().toISOString(),
         isLoggedIn: true
     };
     
     localStorage.setItem('userSession', JSON.stringify(userSession));
-    localStorage.setItem('userRole', 'admin');
+    localStorage.setItem('userRole', 'administrador');
     localStorage.setItem('userName', 'admin');
     localStorage.setItem('isLoggedIn', 'true');
     
@@ -348,6 +360,48 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification('Bienvenido al Sistema de Gestión de Trámites UTEQ', 'info');
     }, 1000);
 });
+
+// Función para login como coordinador (demo)
+function loginAsCoordinador() {
+    const userSession = {
+        username: 'coordinador',
+        role: 'coordinador',
+        loginTime: new Date().toISOString(),
+        isLoggedIn: true
+    };
+    
+    localStorage.setItem('userSession', JSON.stringify(userSession));
+    localStorage.setItem('userRole', 'coordinador');
+    localStorage.setItem('userName', 'coordinador');
+    localStorage.setItem('isLoggedIn', 'true');
+    
+    showNotification('¡Inicio de sesión como coordinador exitoso!', 'success');
+    
+    setTimeout(() => {
+        window.location.href = 'dashboard.html';
+    }, 1000);
+}
+
+// Función para login como decano (demo)
+function loginAsDecano() {
+    const userSession = {
+        username: 'decano',
+        role: 'decano',
+        loginTime: new Date().toISOString(),
+        isLoggedIn: true
+    };
+    
+    localStorage.setItem('userSession', JSON.stringify(userSession));
+    localStorage.setItem('userRole', 'decano');
+    localStorage.setItem('userName', 'decano');
+    localStorage.setItem('isLoggedIn', 'true');
+    
+    showNotification('¡Inicio de sesión como decano exitoso!', 'success');
+    
+    setTimeout(() => {
+        window.location.href = 'dashboard.html';
+    }, 1000);
+}
 
 // Agregar animación CSS para slideOutRight
 const style = document.createElement('style');

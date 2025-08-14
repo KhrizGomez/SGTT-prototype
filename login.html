@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - UTEQ Sistema de Gestión de Trámites</title>
     <link rel="stylesheet" href="login-styles.css">
+    <link rel="stylesheet" href="demo-styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -59,18 +60,28 @@
                 </div>
             </form>
 
-            <!-- Demo Access (mantener para facilitar la demostración) -->
+            <!-- Demo Access Section -->
             <div class="demo-section">
-                <div class="demo-divider"></div>
-                <p class="demo-title">Acceso de Demostración:</p>
+                <div class="demo-header">
+                    <h4>Acceso Rápido de Demostración</h4>
+                    <p>Prueba el sistema con diferentes tipos de usuario</p>
+                </div>
                 <div class="demo-buttons">
-                    <button class="btn-demo-student" onclick="loginAsStudent()">
+                    <button type="button" class="btn-demo estudiante" onclick="loginAsStudent()">
                         <i class="fas fa-user-graduate"></i>
-                        Estudiante
+                        <span>Estudiante</span>
                     </button>
-                    <button class="btn-demo-admin" onclick="loginAsAdmin()">
+                    <button type="button" class="btn-demo coordinador" onclick="loginAsCoordinador()">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Coordinador</span>
+                    </button>
+                    <button type="button" class="btn-demo decano" onclick="loginAsDecano()">
+                        <i class="fas fa-user-crown"></i>
+                        <span>Decano</span>
+                    </button>
+                    <button type="button" class="btn-demo admin" onclick="loginAsAdmin()">
                         <i class="fas fa-user-shield"></i>
-                        Admin
+                        <span>Administrador</span>
                     </button>
                 </div>
             </div>

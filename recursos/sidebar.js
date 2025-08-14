@@ -11,7 +11,144 @@
     return '';
   }
 
+  function getUserInfo(){
+    var userRole = localStorage.getItem('userRole') || 'estudiante';
+    var userName = localStorage.getItem('userName') || 'Usuario';
+    return { role: userRole, name: userName };
+  }
+
+  function getRoleConfig(role){
+    var configs = {
+      estudiante: {
+        name: 'Estudiante',
+        icon: 'fas fa-user-graduate',
+        color: '#2196f3',
+        sections: [
+          {
+            title: 'PRINCIPAL',
+            items: [
+              { key: 'dashboard', href: 'dashboard.html', icon: 'fas fa-home', label: 'Dashboard' },
+              { key: 'registro', href: 'registro-solicitudes.html', icon: 'fas fa-file-alt', label: 'Nueva Solicitud' },
+              { key: 'seguimiento', href: 'seguimiento.html', icon: 'fas fa-search', label: 'Mis Trámites' }
+            ]
+          },
+          {
+            title: 'HERRAMIENTAS',
+            items: [
+              { key: 'ia', href: 'atencion-ia.html', icon: 'fas fa-robot', label: 'Asistente IA' },
+              { key: 'notificaciones', href: 'notificaciones.html', icon: 'fas fa-bell', label: 'Notificaciones' }
+            ]
+          }
+        ]
+      },
+      coordinador: {
+        name: 'Coordinador',
+        icon: 'fas fa-user-tie',
+        color: '#ff9800',
+        sections: [
+          {
+            title: 'PRINCIPAL',
+            items: [
+              { key: 'dashboard', href: 'dashboard.html', icon: 'fas fa-home', label: 'Dashboard' },
+              { key: 'registro', href: 'registro-solicitudes.html', icon: 'fas fa-file-alt', label: 'Nueva Solicitud' },
+              { key: 'seguimiento', href: 'seguimiento.html', icon: 'fas fa-search', label: 'Seguimiento' }
+            ]
+          },
+          {
+            title: 'GESTIÓN',
+            items: [
+              { key: 'reportes', href: 'reportes.html', icon: 'fas fa-chart-line', label: 'Reportes' },
+              { key: 'notificaciones', href: 'notificaciones.html', icon: 'fas fa-bell', label: 'Notificaciones' }
+            ]
+          },
+          {
+            title: 'HERRAMIENTAS',
+            items: [
+              { key: 'ia', href: 'atencion-ia.html', icon: 'fas fa-robot', label: 'Asistente IA' }
+            ]
+          }
+        ]
+      },
+      decano: {
+        name: 'Decano',
+        icon: 'fas fa-user-crown',
+        color: '#9c27b0',
+        sections: [
+          {
+            title: 'PRINCIPAL',
+            items: [
+              { key: 'dashboard', href: 'dashboard.html', icon: 'fas fa-home', label: 'Dashboard' },
+              { key: 'seguimiento', href: 'seguimiento.html', icon: 'fas fa-search', label: 'Seguimiento' }
+            ]
+          },
+          {
+            title: 'GESTIÓN ACADÉMICA',
+            items: [
+              { key: 'reportes', href: 'reportes.html', icon: 'fas fa-chart-line', label: 'Reportes' },
+              { key: 'admin', href: 'admin.html', icon: 'fas fa-users-cog', label: 'Gestión Usuarios' }
+            ]
+          },
+          {
+            title: 'HERRAMIENTAS',
+            items: [
+              { key: 'ia', href: 'atencion-ia.html', icon: 'fas fa-robot', label: 'Asistente IA' },
+              { key: 'notificaciones', href: 'notificaciones.html', icon: 'fas fa-bell', label: 'Notificaciones' }
+            ]
+          }
+        ]
+      },
+      administrador: {
+        name: 'Administrador',
+        icon: 'fas fa-user-shield',
+        color: '#f44336',
+        sections: [
+          {
+            title: 'PRINCIPAL',
+            items: [
+              { key: 'dashboard', href: 'dashboard.html', icon: 'fas fa-home', label: 'Dashboard' },
+              { key: 'seguimiento', href: 'seguimiento.html', icon: 'fas fa-search', label: 'Seguimiento' }
+            ]
+          },
+          {
+            title: 'ADMINISTRACIÓN',
+            items: [
+              { key: 'admin', href: 'admin.html', icon: 'fas fa-cog', label: 'Sistema' },
+              { key: 'reportes', href: 'reportes.html', icon: 'fas fa-chart-line', label: 'Reportes' }
+            ]
+          },
+          {
+            title: 'HERRAMIENTAS',
+            items: [
+              { key: 'ia', href: 'atencion-ia.html', icon: 'fas fa-robot', label: 'Asistente IA' },
+              { key: 'notificaciones', href: 'notificaciones.html', icon: 'fas fa-bell', label: 'Notificaciones' }
+            ]
+          }
+        ]
+      }
+    };
+    return configs[role] || configs.estudiante;
+  }
+
+  function buildSectionsHTML(sections, activeKey){
+    return sections.map(function(section){
+      var itemsHTML = section.items.map(function(item){
+        var activeClass = item.key === activeKey ? ' active' : '';
+        return '<a href="' + item.href + '" class="nav-item' + activeClass + '" data-key="' + item.key + '">' +
+               '<i class="' + item.icon + '"></i>' + item.label + '</a>';
+      }).join('');
+      
+      return '<div class="nav-section">' +
+             '<h3 class="nav-section-title">' + section.title + '</h3>' +
+             itemsHTML +
+             '</div>';
+    }).join('');
+  }
+
   function template(){
+    var userInfo = getUserInfo();
+    var roleConfig = getRoleConfig(userInfo.role);
+    var activeKey = inferActiveKey();
+    
     return [
       '<div class="sidebar-header">',
       '  <div class="logo">',
@@ -19,31 +156,16 @@
       '  </div>',
       '</div>',
       '<nav class="sidebar-nav">',
-      '  <div class="nav-section">',
-      '    <h3 class="nav-section-title">PRINCIPAL</h3>',
-      '    <a href="dashboard.html" class="nav-item" data-key="dashboard"><i class="fas fa-home"></i>Dashboard</a>',
-      '    <a href="registro-solicitudes.html" class="nav-item" data-key="registro"><i class="fas fa-file-alt"></i>Registrar Solicitud</a>',
-      '    <a href="seguimiento.html" class="nav-item" data-key="seguimiento"><i class="fas fa-search"></i>Seguimiento</a>',
-      '  </div>',
-      '  <div class="nav-section">',
-      '    <h3 class="nav-section-title">HERRAMIENTAS</h3>',
-      '    <a href="atencion-ia.html" class="nav-item" data-key="ia"><i class="fas fa-robot"></i>Asistente IA</a>',
-      '    <a href="reportes.html" class="nav-item" data-key="reportes"><i class="fas fa-chart-line"></i>Reportes</a>',
-      '    <a href="notificaciones.html" class="nav-item" data-key="notificaciones"><i class="fas fa-bell"></i>Notificaciones</a>',
-      '  </div>',
-      '  <div class="nav-section">',
-      '    <h3 class="nav-section-title">SISTEMA</h3>',
-      '    <a href="admin.html" class="nav-item" data-key="admin"><i class="fas fa-cog"></i>Administración</a>',
-      '  </div>',
+      buildSectionsHTML(roleConfig.sections, activeKey),
       '</nav>',
       '<div class="sidebar-footer">',
       '  <div class="user-info">',
-      '    <div class="user-avatar">',
-      '      <i class="fas fa-user"></i>',
+      '    <div class="user-avatar" style="color: ' + roleConfig.color + '">',
+      '      <i class="' + roleConfig.icon + '"></i>',
       '    </div>',
       '    <div class="user-details">',
-      '      <div class="user-name">Estudiante UTEQ</div>',
-      '      <div class="user-role">Usuario Activo</div>',
+      '      <div class="user-name">' + userInfo.name + '</div>',
+      '      <div class="user-role" id="userRole">' + roleConfig.name + '</div>',
       '    </div>',
       '  </div>',
       '  <button class="logout-btn" onclick="logout()">',
@@ -75,11 +197,14 @@
     }catch(err){ console.error('[sidebar] init error', err); }
   }
 
-  // Función global de logout
+  // Función global de logout mejorada
   function logout() {
     if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
       // Limpiar sesión
       localStorage.removeItem('userSession');
+      localStorage.removeItem('userRole');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('token');
       sessionStorage.clear();
       

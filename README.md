@@ -1,4 +1,203 @@
-# Sistema de Gestión de Trámites Estudiantiles (SGT)
+# Sistema de Gestión de Trámites UTEQ (SGTT) - Prototipo
+
+## Descripción
+Sistema web para la gestión de trámites estudiantiles de la Universidad Técnica Estatal de Quevedo (UTEQ). Este prototipo incluye un sistema completo de roles y permisos para diferentes tipos de usuarios.
+
+## Características Principales
+
+### 🎭 Sistema de Roles y Permisos
+
+El sistema cuenta con 4 tipos de usuarios, cada uno con acceso específico a diferentes módulos y funcionalidades:
+
+#### 1. Estudiante 👨‍🎓
+- **Icono**: `fas fa-user-graduate`
+- **Color**: Azul (#2196f3)
+- **Acceso a módulos**:
+  - Dashboard (vista personalizada)
+  - Nueva Solicitud
+  - Mis Trámites (seguimiento)
+  - Asistente IA
+  - Notificaciones
+- **Permisos**:
+  - ✅ Crear solicitudes
+  - ✅ Ver sus propias solicitudes
+  - ❌ Ver reportes avanzados
+  - ❌ Administrar usuarios
+
+#### 2. Coordinador 👨‍💼
+- **Icono**: `fas fa-user-tie`
+- **Color**: Naranja (#ff9800)
+- **Acceso a módulos**:
+  - Dashboard con estadísticas
+  - Nueva Solicitud
+  - Seguimiento (todas las solicitudes del programa)
+  - Reportes
+  - Asistente IA
+  - Notificaciones
+- **Permisos**:
+  - ✅ Crear solicitudes
+  - ✅ Ver todas las solicitudes del programa
+  - ✅ Aprobar solicitudes
+  - ✅ Ver reportes
+  - ✅ Gestionar programa académico
+  - ❌ Administrar usuarios del sistema
+
+#### 3. Decano 👑
+- **Icono**: `fas fa-user-crown`
+- **Color**: Púrpura (#9c27b0)
+- **Acceso a módulos**:
+  - Dashboard ejecutivo
+  - Seguimiento (todas las solicitudes de la facultad)
+  - Reportes avanzados
+  - Gestión de usuarios (facultad)
+  - Asistente IA
+  - Notificaciones
+- **Permisos**:
+  - ✅ Ver todas las solicitudes de la facultad
+  - ✅ Aprobar solicitudes de alto nivel
+  - ✅ Ver reportes avanzados
+  - ✅ Gestionar usuarios de la facultad
+  - ✅ Gestionar programas académicos
+  - ❌ Acceso completo al sistema
+
+#### 4. Administrador 🛡️
+- **Icono**: `fas fa-user-shield`
+- **Color**: Rojo (#f44336)
+- **Acceso a módulos**:
+  - Dashboard completo
+  - Seguimiento (todas las solicitudes)
+  - Sistema de administración
+  - Reportes completos
+  - Asistente IA
+  - Notificaciones
+- **Permisos**:
+  - ✅ Acceso completo al sistema
+  - ✅ Gestionar todos los usuarios
+  - ✅ Ver registros del sistema
+  - ✅ Gestionar roles y permisos
+  - ✅ Configuración del sistema
+
+## 🚀 Credenciales de Demostración
+
+Para probar el sistema, puedes usar estas credenciales o los botones de acceso rápido en la página de login:
+
+### Estudiantes
+- Usuario: `estudiante` | Contraseña: `1111`
+- Usuario: `maria.lopez` | Contraseña: `estudiante123`
+- Usuario: `demo` | Contraseña: `demo`
+
+### Coordinadores
+- Usuario: `coordinador` | Contraseña: `coord123`
+- Usuario: `coord.sistemas` | Contraseña: `sistemas123`
+
+### Decanos
+- Usuario: `decano` | Contraseña: `decano123`
+- Usuario: `decano.ingenieria` | Contraseña: `ing123`
+
+### Administradores
+- Usuario: `admin` | Contraseña: `admin123`
+- Usuario: `superadmin` | Contraseña: `super123`
+
+## 🏗️ Estructura del Proyecto
+
+```
+SGTT-prototype/
+├── index.html                  # Página principal
+├── login.html                  # Página de inicio de sesión
+├── dashboard.html              # Panel principal
+├── registro-solicitudes.html   # Formulario de solicitudes
+├── seguimiento.html           # Seguimiento de trámites
+├── atencion-ia.html           # Asistente IA
+├── reportes.html              # Reportes y estadísticas
+├── notificaciones.html        # Centro de notificaciones
+├── admin.html                 # Panel de administración
+├── auth.js                    # Sistema de autenticación y permisos
+├── login-script.js            # Lógica de login
+├── script.js                  # Scripts generales
+├── login-styles.css           # Estilos del login
+├── demo-styles.css            # Estilos para botones de demo
+├── styles.css                 # Estilos generales
+└── recursos/
+    ├── sidebar.js             # Sidebar adaptativo por rol
+    ├── sidebar.css            # Estilos del sidebar
+    ├── logo.png              # Logo UTEQ
+    ├── fondo.png             # Imagen de fondo
+    └── avatar-placeholder.png # Avatar predeterminado
+```
+
+## 🔧 Funcionalidades Técnicas
+
+### Sistema de Autenticación
+- Login con validación de credenciales
+- Almacenamiento seguro de sesión en localStorage
+- Verificación automática de autenticación en todas las páginas
+- Sistema de logout con limpieza de sesión
+
+### Sidebar Adaptativo
+- Menú de navegación que se adapta según el rol del usuario
+- Iconos y colores específicos por tipo de usuario
+- Secciones organizadas según permisos
+- Información del usuario en tiempo real
+
+### Dashboard Personalizado
+- Contenido que se muestra/oculta según permisos
+- Estadísticas específicas por rol
+- Acciones rápidas filtradas por permisos
+- Widgets adaptativos
+
+### Sistema de Permisos
+- Control granular de funcionalidades
+- Validación del lado del cliente
+- Restricciones visuales automáticas
+- API de permisos para desarrollo futuro
+
+## 🎨 Interfaz de Usuario
+
+- **Diseño responsive**: Adaptable a diferentes tamaños de pantalla
+- **Tema UTEQ**: Colores institucionales (verde, naranja)
+- **Iconografía Font Awesome**: Iconos modernos y consistentes
+- **Animaciones sutiles**: Transiciones suaves en hover y clic
+- **Notificaciones**: Sistema de alerts para feedback del usuario
+
+## 🔮 Próximas Mejoras
+
+- [ ] Integración con base de datos real
+- [ ] Autenticación con JWT
+- [ ] Sistema de notificaciones en tiempo real
+- [ ] Carga de archivos para documentos
+- [ ] Workflow de aprobación automatizado
+- [ ] Reportes exportables (PDF, Excel)
+- [ ] Dashboard con gráficos interactivos
+- [ ] Sistema de mensajería interna
+- [ ] Historial detallado de actividades
+- [ ] API RESTful completa
+
+## 📱 Compatibilidad
+
+- ✅ Chrome 80+
+- ✅ Firefox 75+
+- ✅ Safari 13+
+- ✅ Edge 80+
+- ✅ Dispositivos móviles (responsive)
+
+## 🚀 Cómo Ejecutar
+
+1. Clona el repositorio
+2. Abre `index.html` en tu navegador
+3. Usa las credenciales de demostración para probar diferentes roles
+4. Explora las funcionalidades según el tipo de usuario
+
+## 👥 Equipo de Desarrollo
+
+- **Frontend**: HTML5, CSS3, JavaScript Vanilla
+- **UI/UX**: Diseño moderno responsive
+- **Iconografía**: Font Awesome 6.0
+- **Prototipado**: Sistema completo de roles
+
+---
+
+**Desarrollado para la Universidad Técnica Estatal de Quevedo (UTEQ)**  
+*Prototipo de Sistema de Gestión de Trámites Estudiantiles*
 
 ## Descripción del Proyecto
 
